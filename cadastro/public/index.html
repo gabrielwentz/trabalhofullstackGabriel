@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pessoas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #2a2a72;
+            color: #ffffff;
+            font-family: 'Helvetica Neue', Arial, sans-serif; /* Fonte semelhante à da Apple */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #5c4d8d;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+        .btn-primary {
+            background-color: #9b59b6;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #8e44ad;
+        }
+        label {
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div class="container mt-5">
+    <h1 class="text-center">Cadastro de Pessoas</h1>
+    <form id="form-cadastro">
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" class="form-control" id="nome" name="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="cpf">CPF:</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" required>
+        </div>
+        <div class="form-group">
+            <label for="telefone">Telefone:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('form-cadastro');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const nome = form.nome.value;
+        const cpf = form.cpf.value;
+        const telefone = form.telefone.value;
+
+        try {
+            const response = await fetch('/api/pessoas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nome, cpf, telefone }),
+            });
+
+            const data = await response.json();
+            alert(data.message);
+        } catch (error) {
+            console.error('Erro ao cadastrar:', error);
+            alert('Erro ao cadastrar. Tente novamente.');
+        }
+    });
+</script>
 </body>
 </html>
